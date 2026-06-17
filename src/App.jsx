@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Register from "./pages/Register";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
@@ -58,13 +59,15 @@ function App() {
       />
 
       <Route
-        path="/admin"
-        element={
-          <ProtectedRoute>
-            <Admin />
-          </ProtectedRoute>
-        }
-      />
+  path="/admin"
+  element={
+    <ProtectedRoute>
+      <AdminRoute>
+        <Admin />
+      </AdminRoute>
+    </ProtectedRoute>
+  }
+/>
       
     </Routes>
   );
