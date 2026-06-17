@@ -28,8 +28,8 @@ function Login() {
           password: formData.password,
         }
       );
-     
 
+      // Save JWT Tokens
       localStorage.setItem(
         "access",
         response.data.access
@@ -39,31 +39,8 @@ function Login() {
         "refresh",
         response.data.refresh
       );
-      console.log("TOKEN RESPONSE =", JSON.stringify(response.data));
-console.log("ACCESS =", response.data.access);
-console.log("REFRESH =", response.data.refresh);
 
-localStorage.setItem(
-  "access",
-  response.data.access
-);
-
-localStorage.setItem(
-  "refresh",
-  response.data.refresh
-);
-
-console.log(
-  "Saved Access:",
-  localStorage.getItem("access")
-);
-
-console.log(
-  "Saved Refresh:",
-  localStorage.getItem("refresh")
-);
-      
-
+      // Get User Info
       const userResponse = await axios.get(
         "https://finloan-pro-backend.onrender.com/api/me/",
         {
@@ -73,18 +50,19 @@ console.log(
         }
       );
 
-      console.log("USER RESPONSE");
-console.log(userResponse.data);
-
+      // Save User Data
       localStorage.setItem(
         "role",
         userResponse.data.role
       );
 
       localStorage.setItem(
-  "username",
-  userResponse.data.username
-);
+        "username",
+        userResponse.data.username
+      );
+
+      console.log("Token Response:", response.data);
+      console.log("User Response:", userResponse.data);
 
       alert("Login Successful");
 
@@ -95,7 +73,7 @@ console.log(userResponse.data);
       }
 
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert("Invalid Credentials");
     }
   };
