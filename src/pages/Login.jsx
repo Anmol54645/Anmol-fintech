@@ -39,40 +39,33 @@ function Login() {
         response.data.refresh
       );
 
+      const userResponse = await axios.get(
+        "https://finloan-pro-backend.onrender.com/api/me/",
+        {
+          headers: {
+            Authorization: `Bearer ${response.data.access}`,
+          },
+        }
+      );
+
+      console.log(userResponse.data);
+
       localStorage.setItem(
-  "access",
-  response.data.access
-);
+        "role",
+        userResponse.data.role
+      );
 
-localStorage.setItem(
-  "refresh",
-  response.data.refresh
-);
+      alert("Login Successful");
 
-const userResponse = await axios.get(
-  "https://finloan-pro-backend.onrender.com/api/me/",
-  {
-    headers: {
-      Authorization: `Bearer ${response.data.access}`,
-    },
-  }
-);
+      if (userResponse.data.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
 
-localStorage.setItem(
-  "role",
-  userResponse.data.role
-);
-
-alert("Login Successful");
-
-if (userResponse.data.role === "admin") {
-  navigate("/admin");
-} else {
-  navigate("/dashboard");
-}
     } catch (error) {
-      alert("Invalid Credentials");
       console.log(error);
+      alert("Invalid Credentials");
     }
   };
 
@@ -85,15 +78,16 @@ if (userResponse.data.role === "admin") {
         <h1 className="text-3xl font-bold mb-6 text-center">
           Login
         </h1>
+
         <p className="text-center mt-4">
-  Don't have an account?
-  <a
-    href="/register"
-    className="text-blue-500 ml-2"
-  >
-    Register
-  </a>
-</p>
+          Don't have an account?
+          <a
+            href="/register"
+            className="text-blue-500 ml-2"
+          >
+            Register
+          </a>
+        </p>
 
         <input
           type="text"
