@@ -7,10 +7,12 @@ import ApplyLoan from "./pages/ApplyLoan";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Register from "./pages/Register";
 
 function App() {
   return (
     <Routes>
+      <Route path="/register" element={<Register />} />
 
       <Route
         path="/"
