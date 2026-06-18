@@ -12,9 +12,13 @@ function Dashboard() {
   const [loans, setLoans] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    fetchLoans();
-  }, []);
+ useEffect(() => {
+  fetchLoans();
+
+  const interval = setInterval(fetchLoans, 2000);
+
+  return () => clearInterval(interval);
+}, []);
 
   const fetchLoans = async () => {
     try {
