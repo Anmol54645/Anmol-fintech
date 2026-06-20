@@ -1,7 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import API from "../api/loanApi";
 
 function Login() {
   const navigate = useNavigate();
@@ -22,15 +22,12 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "https://finloan-pro-backend.onrender.com/api/token/",
-        {
-          username: formData.username,
-          password: formData.password,
-        }
-      );
+      // Login
+      const response = await API.post("/token/", {
+        username: formData.username,
+        password: formData.password,
+      });
 
-      // Save JWT Tokens
       localStorage.setItem(
         "access",
         response.data.access
@@ -41,17 +38,13 @@ function Login() {
         response.data.refresh
       );
 
-      // Get User Info
-      const userResponse = await axios.get(
-        "https://finloan-pro-backend.onrender.com/api/me/",
-        {
-          headers: {
-            Authorization: `Bearer ${response.data.access}`,
-          },
-        }
-      );
+      // User Info
+      const userResponse = await API.get("/me/", {
+        headers: {
+          Authorization: `Bearer ${response.data.access}`,
+        },
+      });
 
-      // Save User Data
       localStorage.setItem(
         "role",
         userResponse.data.role
@@ -62,10 +55,7 @@ function Login() {
         userResponse.data.username
       );
 
-      console.log("Token Response:", response.data);
-      console.log("User Response:", userResponse.data);
-
-     toast.success("Login Successful");
+      toast.success("Login Successful");
 
       if (userResponse.data.role === "admin") {
         navigate("/admin");
@@ -74,7 +64,7 @@ function Login() {
       }
 
     } catch (error) {
-      console.error(error);
+      console.log(error.response?.data);
       toast.error("Invalid Credentials");
     }
   };
