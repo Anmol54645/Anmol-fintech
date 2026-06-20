@@ -35,6 +35,22 @@ function Admin() {
     }
   };
 
+  const deleteLoan = async (id) => {
+  try {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this loan?"
+    );
+
+    if (!confirmDelete) return;
+
+    await API.delete(`/loans/${id}/`);
+
+    fetchLoans();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
   const exportCSV = () => {
     const headers = [
       "ID",
@@ -164,6 +180,14 @@ function Admin() {
                     >
                       Reject
                     </button>
+
+                    <button
+  onClick={() => deleteLoan(loan.id)}
+  className="bg-gray-700 text-white px-3 py-1 rounded ml-2"
+>
+  Delete
+</button>
+
                   </td>
                 </tr>
               ))}
