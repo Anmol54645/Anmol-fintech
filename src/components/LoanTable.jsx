@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function LoanTable({ loans }) {
   return (
-    <div className="bg-white p-4 md:p-6 rounded-xl shadow mt-8">
+    <div className="bg-white dark:bg-slate-800 text-black dark:text-white p-4 md:p-6 rounded-xl shadow mt-8 transition duration-300">
       <h2 className="text-2xl font-bold mb-4">
         Recent Loans
       </h2>
@@ -10,7 +10,7 @@ function LoanTable({ loans }) {
       <div className="overflow-x-auto">
         <table className="w-full border-collapse min-w-[700px]">
           <thead>
-            <tr className="border-b bg-slate-100">
+            <tr className="border-b bg-slate-100 dark:bg-slate-700">
               <th className="p-3 text-left">ID</th>
               <th className="p-3 text-left">Applicant</th>
               <th className="p-3 text-left">Amount</th>
@@ -26,7 +26,7 @@ function LoanTable({ loans }) {
               loans.map((loan) => (
                 <tr
                   key={loan.id}
-                  className="border-b hover:bg-slate-50"
+                  className="border-b hover:bg-slate-50 dark:hover:bg-slate-700"
                 >
                   <td className="p-3">
                     {loan.id}
@@ -76,7 +76,7 @@ function LoanTable({ loans }) {
               <tr>
                 <td
                   colSpan="7"
-                  className="text-center p-6 text-gray-500"
+                  className="text-center p-6 text-gray-500 dark:text-gray-300"
                 >
                   No Loan Applications Found
                 </td>

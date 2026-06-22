@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import API from "../api/loanApi";
+import toast from "react-hot-toast";
 
 function Admin() {
   const [loans, setLoans] = useState([]);
@@ -19,51 +20,61 @@ function Admin() {
     }
   };
 
-  const updateStatus = async (
-    id,
-    status,
-    interestRate = 0
-  ) => {
+ const updateStatus = async (
+  id,
+  status,
+  interestRate = 0
+) => {
+  if (
+    status === "Approved" &&
+    (!interestRate || Number(interestRate) <= 0)
+  ) {
+    toast.error("Please enter a valid interest rate");
+    return;
+  }
 
-    if (
-  status === "Approved" &&
-  (!interestRate || Number(interestRate) <= 0)
-) {
-  alert("Please enter a valid interest rate");
-  return;
-}
-    try {
-      const loan = loans.find(
-        (item) => item.id === id
-      );
+  try {
+    const loan = loans.find(
+      (item) => item.id === id
+    );
 
-      await API.patch(`/loans/${id}/`, {
-        ...loan,
-        status,
-        interest_rate: Number(interestRate),
-      });
+    await API.patch(`/loans/${id}/`, {
+      ...loan,
+      status,
+      interest_rate: Number(interestRate),
+    });
 
-      fetchLoans();
-    } catch (error) {
-      console.log(error);
+    if (status === "Approved") {
+      toast.success("Loan Approved Successfully");
+    } else {
+      toast.success("Loan Rejected Successfully");
     }
-  };
+
+    fetchLoans();
+  } catch (error) {
+    console.log(error);
+    toast.error("Something went wrong");
+  }
+};
 
   const deleteLoan = async (id) => {
-    try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this loan?"
-      );
+  try {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this loan?"
+    );
 
-      if (!confirmDelete) return;
+    if (!confirmDelete) return;
 
-      await API.delete(`/loans/${id}/`);
+    await API.delete(`/loans/${id}/`);
 
-      fetchLoans();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    toast.success("Loan Deleted Successfully");
+
+    fetchLoans();
+  } catch (error) {
+    console.log(error);
+    toast.error("Failed to delete loan");
+  }
+};
 
   const exportCSV = () => {
     const headers = [

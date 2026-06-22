@@ -12,13 +12,16 @@ function Dashboard() {
   const [loans, setLoans] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
- useEffect(() => {
-  fetchLoans();
+  useEffect(() => {
+    fetchLoans();
 
-  const interval = setInterval(fetchLoans, 2000);
+    const interval = setInterval(
+      fetchLoans,
+      2000
+    );
 
-  return () => clearInterval(interval);
-}, []);
+    return () => clearInterval(interval);
+  }, []);
 
   const fetchLoans = async () => {
     try {
@@ -48,13 +51,13 @@ function Dashboard() {
   ).length;
 
   return (
-    <div className="flex bg-slate-100 min-h-screen">
+    <div className="flex bg-slate-100 dark:bg-slate-900 min-h-screen transition-colors duration-300">
       <Sidebar />
 
       <div className="flex-1 p-4 md:p-8">
         <Navbar setSearchTerm={setSearchTerm} />
 
-        <h1 className="text-4xl font-bold mb-8">
+        <h1 className="text-4xl font-bold mb-8 text-black dark:text-white">
           Dashboard
         </h1>
 

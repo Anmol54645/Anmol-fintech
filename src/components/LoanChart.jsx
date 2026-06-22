@@ -30,16 +30,25 @@ function LoanChart({ loans }) {
   ];
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow mt-8">
+    <div className="bg-white dark:bg-slate-800 text-black dark:text-white p-6 rounded-xl shadow mt-8 transition duration-300">
       <h2 className="text-xl font-bold mb-4">
         Loan Status Analytics
       </h2>
 
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer
+        width="100%"
+        height={300}
+      >
         <BarChart data={chartData}>
-          <XAxis dataKey="status" />
-          <YAxis />
+          <XAxis
+            dataKey="status"
+            stroke="#94a3b8"
+          />
+
+          <YAxis stroke="#94a3b8" />
+
           <Tooltip />
+
           <Bar dataKey="count" />
         </BarChart>
       </ResponsiveContainer>
